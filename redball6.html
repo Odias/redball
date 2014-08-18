@@ -1,0 +1,47 @@
+<html>
+<head>
+<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+<script>
+var hello;
+hello = new mygame; 
+function mygame(){
+  this.sayhello = function (){
+    console.log ('hello world');
+  };
+  this.addball = function (){ 
+    var blueball = new ball();
+    var fromServer = '{"cssid":"blueball","imgsrc":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIi4J3dlPHUbPgen9ewRG2tv3MJxxqmWp4OgY4Dmvx9jn-_Wef"}';
+    jQuery.extend(blueball, JSON.parse(fromServer));
+    blueball.debug();
+    blueball.show();
+    var blackball = new ball();
+    var fromServer = '{"cssid":"blackball","imgsrc":"http://i49.tinypic.com/2le6hw7.png"}';
+    jQuery.extend(blackball, JSON.parse(fromServer));
+    blackball.debug();
+    blackball.show();
+    
+  };
+  
+}
+
+function ball(){
+  var cssid;
+  var imgsrc;
+  this.debug = function (){
+     console.log ('my id is: ' + this.cssid);
+     console.log ('my image source is: ' + this.imgsrc);
+  };
+  this.show = function () {
+    var game = $("#game");
+    game.append("<img id='"+this.cssid+"' src='"+this.imgsrc+"'/>");
+    this.element = $("#" + this.cssid);
+  };
+}
+</script>
+</head>
+<body>
+<button onclick="hello.sayhello();">say it</button>
+<button onclick="hello.addball();">more balls</button>
+<div id="game"></div>
+</body>
+</html>
