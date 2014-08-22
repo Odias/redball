@@ -1,0 +1,197 @@
+<html>
+<head>
+
+<style>
+html,body {
+background-image: url("http://wfiles.brothersoft.com/w/white-bowling-pin_88499-1280x800.jpg");
+Height:25%;
+width:100%;
+ }
+#skullball {
+position:absolute;
+top:30px;
+left:1000px;
+}
+#chronicball {
+Position:absolute;
+top:400px;
+left:1000px;
+width:30px;
+height:90px;
+}
+#dconball {
+position:absolute;
+top:400px;
+left:20px;
+}
+</style>
+<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+<script>
+//declare global variables
+var thegame;
+thegame = new mygame;
+
+//create your object 
+function mygame(){
+  this.balls = [];
+//an object method to say something
+  this.sayhello = function (){
+    console.log ('hello world');
+  };
+  this.addball = function (jsonBall){ 
+    var newball = new ball();
+    jQuery.extend(newball, jsonBall);
+    this.balls.push(newball);
+    newball.show();
+  };
+  
+}
+
+function ball(){
+  var cssid;
+  var imgsrc;
+  var initialleft;
+  var initialtop;
+  this.debug = function (){
+     console.log ('my id is: ' + this.cssid);
+     console.log ('my image source is: ' + this.imgsrc);
+  };
+  this.show = function () {
+    var game = $("#game");
+    game.append("<img id='"+this.cssid+"' src='"+this.imgsrc+"'/>");
+    this.element = $("#" + this.cssid);
+    this.element.css({ position:'absolute',left:this.initialleft,top:this.initialtop });
+    
+  };
+  this.move=function(dx,dy){
+    this.element.animate({ "left": "+=" +dx+ "px", "top": "+=" +dy+ "px" }, "slow" );
+  };
+
+}
+
+$(document).ready (function(){
+  var server = new ajaxServiceLayer();
+  var ballsFromJSON = server.getballs();
+  for (i=0;i<ballsFromJSON.length;i++){
+    thegame.addball(ballsFromJSON[i]);
+  }
+  
+});
+
+function ajaxServiceLayer(){
+  this.getball = function(){
+    //name the return value
+    var retval;
+    /*
+    $.get("getball.aspx")
+      .done(function(data){
+        retval = JSON.parse(data);
+      });
+    */
+    //fake the server for now
+    //http://www.w3schools.com/json/json_syntax.asp
+    retval = JSON.parse('{"cssid":"redball","imgsrc":"http://www.icstars.org/files/redball.jpg","initialleft":100,"initialtop":100}');
+    
+    return retval;
+  };
+
+  this.getballs = function(){
+    //name the return value
+    var retval;
+    /*
+    $.get("getballs.aspx")
+      .done(function(data){
+        retval = JSON.parse(data);
+      });
+    */
+    //fake the server for now
+    //http://www.w3schools.com/json/json_syntax.asp
+    retval = JSON.parse('[{"cssid":"redball","imgsrc":"http://media-cache-ak0.pinimg.com/236x/c1/a4/9a/c1a49affa2b7a2ef7a4b239b9469f1a9.jpg","initialleft":150,"initialtop":0},{"cssid":"8ball","imgsrc":"http://www.bowlerstore.com/images/product/medium/3473.jpg","initialleft":140,"initialtop":370},{"cssid":"greenball","imgsrc":"http://www.300bowl.com/store/graphics/00000001/OTB-Marijuana-Leaf2.jpg","initialleft":1130,"initialtop":330},{"cssid":"basketball","imgsrc":"http://www.bowlingindex.com/store/graphics/00000001/bl-eboniteskull.jpg","initialleft":1130,"initialtop":100}]');
+    
+    return retval;
+  };
+  
+}
+</script>
+</head>
+<body>
+<table id="beerball" style="border: 4px solid purple" >
+        
+        <td><button id="diagupright3"onclick="thegame.balls[0].move(-10,-10);">&#8598;</button></td>
+        <td><button id="up3" onclick="thegame.balls[0].move(0,-10);">&#8593;</button></td>
+        <td><button id="diagupleft3" onclick="thegame.balls[0].move(+10,-10);">&#8599;</button></td>
+        </tr>
+        <tr>
+        <td><button id="left3" onclick="thegame.balls[0].move(-10,0);">&#8592;</button></td>
+        <td><button id="shake3" onclick="thegame.balls[0].move(-10,0);thegame.balls[3].move(+10,0);thegame.balls[3].move(+10,0);thegame.balls[3].move(-10,0);">&#8596;</button></td>
+        <td><button id="right3" onclick="thegame.balls[0].move(+10,0);">&#8594;</button></td>
+        </tr>
+        <tr>
+        <td><button id="diagdownright3" onclick="thegame.balls[0].move(+10,+10);">&#8600;</button></td>
+        <td><button id="down3" onclick="thegame.balls[0].move(0,+10);">&#8595;</button></td>
+        <td><button id="diagdownleft3" onclick="thegame.balls[0].move(-10,+10);">&#8601;</button></td>
+        
+        </tr>
+        </table>
+		
+		<table id="dconball" style="border: 4px solid purple" >
+        
+        <td><button id="diagupright3"onclick="thegame.balls[1].move(-10,-10);">&#8598;</button></td>
+        <td><button id="up3" onclick="thegame.balls[1].move(0,-10);">&#8593;</button></td>
+        <td><button id="diagupleft3" onclick="thegame.balls[1].move(+10,-10);">&#8599;</button></td>
+        </tr>
+        <tr>
+        <td><button id="left3" onclick="thegame.balls[1].move(-10,0);">&#8592;</button></td>
+        <td><button id="shake3" onclick="thegame.balls[1].move(-10,0);thegame.balls[3].move(+10,0);thegame.balls[3].move(+10,0);thegame.balls[3].move(-10,0);">&#8596;</button></td>
+        <td><button id="right3" onclick="thegame.balls[1].move(+10,0);">&#8594;</button></td>
+        </tr>
+        <tr>
+        <td><button id="diagdownright3" onclick="thegame.balls[1].move(+10,+10);">&#8600;</button></td>
+        <td><button id="down3" onclick="thegame.balls[1].move(0,+10);">&#8595;</button></td>
+        <td><button id="diagdownleft3" onclick="thegame.balls[1].move(-10,+10);">&#8601;</button></td>
+        
+        </tr>
+        </table>
+		
+		<table id="chronicball" style="border: 4px solid purple" >
+        
+        <td><button id="diagupright3"onclick="thegame.balls[2].move(-10,-10);">&#8598;</button></td>
+        <td><button id="up3" onclick="thegame.balls[2].move(0,-10);">&#8593;</button></td>
+        <td><button id="diagupleft3" onclick="thegame.balls[2].move(+10,-10);">&#8599;</button></td>
+        </tr>
+        <tr>
+        <td><button id="left3" onclick="thegame.balls[2].move(-10,0);">&#8592;</button></td>
+        <td><button id="shake3" onclick="thegame.balls[2].move(-10,0);thegame.balls[3].move(+10,0);thegame.balls[3].move(+10,0);thegame.balls[3].move(-10,0);">&#8596;</button></td>
+        <td><button id="right3" onclick="thegame.balls[2].move(+10,0);">&#8594;</button></td>
+        </tr>
+        <tr>
+        <td><button id="diagdownright3" onclick="thegame.balls[2].move(+10,+10);">&#8600;</button></td>
+        <td><button id="down3" onclick="thegame.balls[2].move(0,+10);">&#8595;</button></td>
+        <td><button id="diagdownleft3" onclick="thegame.balls[2].move(-10,+10);">&#8601;</button></td>
+        
+        </tr>
+        </table>
+		
+		<table id="skullball" style="border: 4px solid purple" >
+        
+        <td><button id="diagupright3"onclick="thegame.balls[3].move(-10,-10);">&#8598;</button></td>
+        <td><button id="up3" onclick="thegame.balls[3].move(0,-10);">&#8593;</button></td>
+        <td><button id="diagupleft3" onclick="thegame.balls[3].move(+10,-10);">&#8599;</button></td>
+        </tr>
+        <tr>
+        <td><button id="left3" onclick="thegame.balls[3].move(-10,0);">&#8592;</button></td>
+        <td><button id="shake3" onclick="thegame.balls[3].move(-10,0);thegame.balls[3].move(+10,0);thegame.balls[3].move(+10,0);thegame.balls[3].move(-10,0);">&#8596;</button></td>
+        <td><button id="right3" onclick="thegame.balls[3].move(+10,0);">&#8594;</button></td>
+        </tr>
+        <tr>
+        <td><button id="diagdownright3" onclick="thegame.balls[3].move(+10,+10);">&#8600;</button></td>
+        <td><button id="down3" onclick="thegame.balls[3].move(0,+10);">&#8595;</button></td>
+        <td><button id="diagdownleft3" onclick="thegame.balls[3].move(-10,+10);">&#8601;</button></td>
+        
+        </tr>
+        </table>
+		
+<div id="game"></div>
+</body>
+</html>
+
